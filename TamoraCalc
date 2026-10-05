@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamoor Scientific Calculator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #0b0f19;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.calculator {
+    width: 100%;
+    max-width: 650px;
+    background: #151a27;
+    padding: 18px;
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(0,0,0,.5);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.header h1 {
+    font-size: 21px;
+    margin: 0;
+}
+
+.header small {
+    color: #9da5b5;
+}
+
+.display {
+    background: #080b12;
+    border-radius: 17px;
+    padding: 15px;
+    min-height: 100px;
+    margin-bottom: 12px;
+    text-align: right;
+    overflow: hidden;
+}
+
+.expression {
+    color: #9299a8;
+    min-height: 25px;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.result {
+    font-size: 32px;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    margin-bottom: 12px;
+}
+
+.keys {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+}
+
+button {
+    min-height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: #222938;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #30384b;
+}
+
+button:active {
+    transform: scale(.97);
+}
+
+.function {
+    background: #252c3c;
+}
+
+.operator {
+    background: #30384a;
+}
+
+.equal {
+    background: #7667ff;
+}
+
+.clear {
+    background: #572d35;
+}
+
+.mode {
+    background: #7667ff;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 15px;
+    color: #8e96a7;
+    font-size: 12px;
+}
+
+@media(max-width:430px) {
+
+    .calculator {
+        padding: 11px;
+    }
+
+    .header {
+        display: block;
+    }
+
+    .header small {
+        display: block;
+        margin-top: 5px;
+    }
+
+    button {
+        min-height: 45px;
+        font-size: 13px;
+    }
+
+    .result {
+        font-size: 27px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+
+    <div class="header">
+        <h1>🧮 Tamoor Scientific Calculator</h1>
+        <small>Math • Science • Engineering</small>
+    </div>
+
+    <div class="display">
+        <div class="expression" id="expression">
+            Ready
+        </div>
+
+        <div class="result" id="result">
+            0
+        </div>
+    </div>
+
+    <!-- Controls -->
+
+    <div class="controls">
+
+        <button class="mode" id="mode">
+            DEG
+        </button>
+
+        <button id="ans">
+            ANS
+        </button>
+
+        <button id="back">
+            ⌫
+        </button>
+
+        <button class="clear" id="clear">
+            AC
+        </button>
+
+    </div>
+
+
+    <!-- Scientific Functions -->
+
+    <div class="keys">
+
+        <button class="function" data-value="sin(">sin</button>
+        <button class="function" data-value="cos(">cos</button>
+        <button class="function" data-value="tan(">tan</button>
+        <button class="function" data-value="asin(">sin⁻¹</button>
+        <button class="function" data-value="acos(">cos⁻¹</button>
+
+        <button class="function" data-value="atan(">tan⁻¹</button>
+        <button class="function" data-value="log(">log</button>
+        <button class="function" data-value="ln(">ln</button>
+        <button class="function" data-value="sqrt(">√</button>
+        <button class="function" data-value="cbrt(">∛</button>
+
+        <button class="function" data-value="(">(</button>
+        <button class="function" data-value=")">)</button>
+        <button class="function" data-value="^2">x²</button>
+        <button class="function" data-value="^">xʸ</button>
+        <button class="function" data-value="!">x!</button>
+
+        <button class="function" data-value="pi">π</button>
+        <button class="function" data-value="e">e</button>
+        <button class="function" data-value="abs(">|x|</button>
+        <button class="function" data-value="exp(">eˣ</button>
+        <button class="function" data-value="10^">10ˣ</button>
+
+        <!-- Numbers -->
+
+        <button data-value="7">7</button>
+        <button data-value="8">8</button>
+        <button data-value="9">9</button>
+        <button class="operator" data-value="/">÷</button>
+        <button class="operator" data-value="%">%</button>
+
+        <button data-value="4">4</button>
+        <button data-value="5">5</button>
+        <button data-value="6">6</button>
+        <button class="operator" data-value="*">×</button>
+        <button class="operator" data-value="-">−</button>
+
+        <button data-value="1">1</button>
+        <button data-value="2">2</button>
+        <button data-value="3">3</button>
+        <button class="operator" data-value="+">+</button>
+        <button class="operator" data-value=".">.</button>
+
+        <button data-value="0">0</button>
+        <button data-value="00">00</button>
+        <button data-value="000">000</button>
+        <button data-value="pi">π</button>
+        <button class="equal" id="equals">=</button>
+
+    </div>
+
+    <div class="footer">
+        Made for Tamoor • Scientific Calculator
+    </div>
+
+</div>
+
+
+<script>
+
+let input = "";
+let answer = 0;
+let degreeMode = true;
+
+const expression =
+    document.getElementById("expression");
+
+const result =
+    document.getElementById("result");
+
+const mode =
+    document.getElementById("mode");
+
+
+// -------------------------
+// Display
+// -------------------------
+
+function updateDisplay() {
+
+    expression.textContent =
+        input || "Ready";
+
+    if (!input) {
+        result.textContent = "0";
+    }
+}
+
+
+// -------------------------
+// Add text
+// -------------------------
+
+function addValue(value) {
+
+    input += value;
+
+    updateDisplay();
+}
+
+
+// -------------------------
+// Factorial
+// -------------------------
+
+function factorial(n) {
+
+    if (
+        !Number.isFinite(n) ||
+        n < 0 ||
+        Math.floor(n) !== n
+    ) {
+        throw new Error(
+            "Factorial requires a positive integer"
+        );
+    }
+
+    if (n > 170) {
+        throw new Error(
+            "Number too large"
+        );
+    }
+
+    let total = 1;
+
+    for (let i = 2; i <= n; i++) {
+        total *= i;
+    }
+
+    return total;
+}
+
+
+// -------------------------
+// Calculator Engine
+// -------------------------
+
+function calculateExpression(text) {
+
+    let x = text;
+
+    // Constants
+
+    x = x.replace(
+        /pi/g,
+        "Math.PI"
+    );
+
+    x = x.replace(
+        /\be\b/g,
+        "Math.E"
+    );
+
+
+    // Powers
+
+    x = x.replace(
+        /\^/g,
+        "**"
+    );
+
+
+    // Factorial
+
+    x = x.replace(
+        /(\d+(?:\.\d+)?)!/g,
+        "factorial($1)"
+    );
+
+
+    // Functions
+
+    x = x.replace(
+        /sqrt\(/g,
+        "Math.sqrt("
+    );
+
+    x = x.replace(
+        /cbrt\(/g,
+        "Math.cbrt("
+    );
+
+    x = x.replace(
+        /abs\(/g,
+        "Math.abs("
+    );
+
+    x = x.replace(
+        /log\(/g,
+        "Math.log10("
+    );
+
+    x = x.replace(
+        /ln\(/g,
+        "Math.log("
+    );
+
+    x = x.replace(
+        /exp\(/g,
+        "Math.exp("
+    );
+
+
+    // Trigonometry
+
+    x = x.replace(
+        /sin\(/g,
+        "SIN("
+    );
+
+    x = x.replace(
+        /cos\(/g,
+        "COS("
+    );
+
+    x = x.replace(
+        /tan\(/g,
+        "TAN("
+    );
+
+    x = x.replace(
+        /asin\(/g,
+        "ASIN("
+    );
+
+    x = x.replace(
+        /acos\(/g,
+        "ACOS("
+    );
+
+    x = x.replace(
+        /atan\(/g,
+        "ATAN("
+    );
+
+
+    // Safe mathematical functions
+
+    const SIN = value =>
+        Math.sin(
+            degreeMode
+                ? value * Math.PI / 180
+                : value
+        );
+
+    const COS = value =>
+        Math.cos(
+            degreeMode
+                ? value * Math.PI / 180
+                : value
+        );
+
+    const TAN = value =>
+        Math.tan(
+            degreeMode
+                ? value * Math.PI / 180
+                : value
+        );
+
+
+    const ASIN = value => {
+
+        let r = Math.asin(value);
+
+        return degreeMode
+            ? r * 180 / Math.PI
+            : r;
+    };
+
+
+    const ACOS = value => {
+
+        let r = Math.acos(value);
+
+        return degreeMode
+            ? r * 180 / Math.PI
+            : r;
+    };
+
+
+    const ATAN = value => {
+
+        let r = Math.atan(value);
+
+        return degreeMode
+            ? r * 180 / Math.PI
+            : r;
+    };
+
+
+    // Basic validation
+
+    if (
+        !/^[0-9+\-*/().,\sA-Za-z_*]+$/.test(x)
+    ) {
+        throw new Error(
+            "Invalid expression"
+        );
+    }
+
+
+    // Calculate
+
+    const value = Function(
+        "SIN",
+        "COS",
+        "TAN",
+        "ASIN",
+        "ACOS",
+        "ATAN",
+        "factorial",
+        `"use strict"; return (${x})`
+    )(
+        SIN,
+        COS,
+        TAN,
+        ASIN,
+        ACOS,
+        ATAN,
+        factorial
+    );
+
+
+    if (
+        !Number.isFinite(value)
+    ) {
+        throw new Error(
+            "Invalid result"
+        );
+    }
+
+
+    return Math.round(
+        value * 1000000000000
+    ) / 1000000000000;
+}
+
+
+// -------------------------
+// Calculate
+// -------------------------
+
+function calculate() {
+
+    if (!input) return;
+
+    try {
+
+        const value =
+            calculateExpression(input);
+
+        answer = value;
+
+        expression.textContent =
+            input + " =";
+
+        result.textContent =
+            value;
+
+        input = String(value);
+
+    }
+
+    catch(error) {
+
+        expression.textContent =
+            "Error";
+
+        result.textContent =
+            error.message;
+
+        input = "";
+    }
+}
+
+
+// -------------------------
+// Buttons
+// -------------------------
+
+document
+    .querySelectorAll("[data-value]")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                addValue(
+                    button.dataset.value
+                );
+
+            }
+        );
+
+    });
+
+
+// Equal
+
+document
+    .getElementById("equals")
+    .addEventListener(
+        "click",
+        calculate
+    );
+
+
+// Clear
+
+document
+    .getElementById("clear")
+    .addEventListener(
+        "click",
+        () => {
+
+            input = "";
+
+            expression.textContent =
+                "Ready";
+
+            result.textContent =
+                "0";
+
+        }
+    );
+
+
+// Backspace
+
+document
+    .getElementById("back")
+    .addEventListener(
+        "click",
+        () => {
+
+            input =
+                input.slice(0, -1);
+
+            updateDisplay();
+
+        }
+    );
+
+
+// Answer
+
+document
+    .getElementById("ans")
+    .addEventListener(
+        "click",
+        () => {
+
+            addValue(
+                String(answer)
+            );
+
+        }
+    );
+
+
+// DEG / RAD
+
+mode.addEventListener(
+    "click",
+    () => {
+
+        degreeMode =
+            !degreeMode;
+
+        mode.textContent =
+            degreeMode
+                ? "DEG"
+                : "RAD";
+
+    }
+);
+
+
+// -------------------------
+// Keyboard
+// -------------------------
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key >= "0" &&
+            event.key <= "9"
+        ) {
+            addValue(event.key);
+        }
+
+        else if (
+            "+-*/().%".includes(
+                event.key
+            )
+        ) {
+            addValue(event.key);
+        }
+
+        else if (
+            event.key === "Enter" ||
+            event.key === "="
+        ) {
+            calculate();
+        }
+
+        else if (
+            event.key === "Backspace"
+        ) {
+
+            input =
+                input.slice(0, -1);
+
+            updateDisplay();
+
+        }
+
+        else if (
+            event.key === "Escape"
+        ) {
+
+            input = "";
+
+            updateDisplay();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
