@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="google-site-verification" content="UACtqs3HPqpjIjIPKRFu-lvThFmp42V-WFi6HItK_zA" />
+
 <title>Tamoor Scientific Calculator</title>
 
 <style>
@@ -175,8 +178,6 @@ button:active {
         </div>
     </div>
 
-    <!-- Controls -->
-
     <div class="controls">
 
         <button class="mode" id="mode">
@@ -196,9 +197,6 @@ button:active {
         </button>
 
     </div>
-
-
-    <!-- Scientific Functions -->
 
     <div class="keys">
 
@@ -225,8 +223,6 @@ button:active {
         <button class="function" data-value="abs(">|x|</button>
         <button class="function" data-value="exp(">eˣ</button>
         <button class="function" data-value="10^">10ˣ</button>
-
-        <!-- Numbers -->
 
         <button data-value="7">7</button>
         <button data-value="8">8</button>
@@ -260,7 +256,6 @@ button:active {
 
 </div>
 
-
 <script>
 
 let input = "";
@@ -276,11 +271,6 @@ const result =
 const mode =
     document.getElementById("mode");
 
-
-// -------------------------
-// Display
-// -------------------------
-
 function updateDisplay() {
 
     expression.textContent =
@@ -291,22 +281,12 @@ function updateDisplay() {
     }
 }
 
-
-// -------------------------
-// Add text
-// -------------------------
-
 function addValue(value) {
 
     input += value;
 
     updateDisplay();
 }
-
-
-// -------------------------
-// Factorial
-// -------------------------
 
 function factorial(n) {
 
@@ -335,16 +315,9 @@ function factorial(n) {
     return total;
 }
 
-
-// -------------------------
-// Calculator Engine
-// -------------------------
-
 function calculateExpression(text) {
 
     let x = text;
-
-    // Constants
 
     x = x.replace(
         /pi/g,
@@ -356,24 +329,15 @@ function calculateExpression(text) {
         "Math.E"
     );
 
-
-    // Powers
-
     x = x.replace(
         /\^/g,
         "**"
     );
 
-
-    // Factorial
-
     x = x.replace(
         /(\d+(?:\.\d+)?)!/g,
         "factorial($1)"
     );
-
-
-    // Functions
 
     x = x.replace(
         /sqrt\(/g,
@@ -405,9 +369,6 @@ function calculateExpression(text) {
         "Math.exp("
     );
 
-
-    // Trigonometry
-
     x = x.replace(
         /sin\(/g,
         "SIN("
@@ -438,9 +399,6 @@ function calculateExpression(text) {
         "ATAN("
     );
 
-
-    // Safe mathematical functions
-
     const SIN = value =>
         Math.sin(
             degreeMode
@@ -462,7 +420,6 @@ function calculateExpression(text) {
                 : value
         );
 
-
     const ASIN = value => {
 
         let r = Math.asin(value);
@@ -471,7 +428,6 @@ function calculateExpression(text) {
             ? r * 180 / Math.PI
             : r;
     };
-
 
     const ACOS = value => {
 
@@ -482,7 +438,6 @@ function calculateExpression(text) {
             : r;
     };
 
-
     const ATAN = value => {
 
         let r = Math.atan(value);
@@ -492,9 +447,6 @@ function calculateExpression(text) {
             : r;
     };
 
-
-    // Basic validation
-
     if (
         !/^[0-9+\-*/().,\sA-Za-z_*]+$/.test(x)
     ) {
@@ -502,9 +454,6 @@ function calculateExpression(text) {
             "Invalid expression"
         );
     }
-
-
-    // Calculate
 
     const value = Function(
         "SIN",
@@ -525,7 +474,6 @@ function calculateExpression(text) {
         factorial
     );
 
-
     if (
         !Number.isFinite(value)
     ) {
@@ -534,16 +482,10 @@ function calculateExpression(text) {
         );
     }
 
-
     return Math.round(
         value * 1000000000000
     ) / 1000000000000;
 }
-
-
-// -------------------------
-// Calculate
-// -------------------------
 
 function calculate() {
 
@@ -578,11 +520,6 @@ function calculate() {
     }
 }
 
-
-// -------------------------
-// Buttons
-// -------------------------
-
 document
     .querySelectorAll("[data-value]")
     .forEach(button => {
@@ -600,18 +537,12 @@ document
 
     });
 
-
-// Equal
-
 document
     .getElementById("equals")
     .addEventListener(
         "click",
         calculate
     );
-
-
-// Clear
 
 document
     .getElementById("clear")
@@ -630,9 +561,6 @@ document
         }
     );
 
-
-// Backspace
-
 document
     .getElementById("back")
     .addEventListener(
@@ -647,9 +575,6 @@ document
         }
     );
 
-
-// Answer
-
 document
     .getElementById("ans")
     .addEventListener(
@@ -662,9 +587,6 @@ document
 
         }
     );
-
-
-// DEG / RAD
 
 mode.addEventListener(
     "click",
@@ -680,11 +602,6 @@ mode.addEventListener(
 
     }
 );
-
-
-// -------------------------
-// Keyboard
-// -------------------------
 
 document.addEventListener(
     "keydown",
